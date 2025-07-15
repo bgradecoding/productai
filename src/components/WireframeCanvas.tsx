@@ -21,8 +21,18 @@ const WireframeCanvas: React.FC<WireframeCanvasProps> = ({ components, canvasRef
     id: 'canvas',
   });
 
+  const style: React.CSSProperties = {
+    backgroundImage: `
+      linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+      linear-gradient(to bottom, #e0e0e0 1px, transparent 1px)
+    `,
+    backgroundSize: '20px 20px',
+    backgroundColor: isOver ? 'var(--fallback-b2, oklch(var(--b2) / 0.2))' : 'var(--fallback-b1, oklch(var(--b1) / 1))',
+    transition: 'background-color 0.2s ease-in-out',
+  };
+
   return (
-    <div ref={(node) => { setNodeRef(node); (canvasRef as React.MutableRefObject<HTMLDivElement>).current = node; }} className={`w-full h-full relative ${isOver ? 'bg-gray-300' : 'bg-gray-200'}`}>
+    <div ref={(node) => { setNodeRef(node); if(canvasRef) (canvasRef as React.MutableRefObject<HTMLDivElement>).current = node; }} className="w-full h-full relative rounded-box" style={style}>
       {components.map((component) => (
         <DraggableComponent
           key={component.id}
@@ -31,9 +41,10 @@ const WireframeCanvas: React.FC<WireframeCanvasProps> = ({ components, canvasRef
         >
           <div
             style={{ width: component.size.width, height: component.size.height }}
-            className="border bg-white p-2"
+            className="card bg-base-100 shadow-xl border-2 border-primary flex items-center justify-center"
           >
-            {component.type}
+            <span className="font-bold text-primary-content bg-primary px-2 py-1 rounded-full text-xs absolute -top-3 -right-3">{component.type}</span>
+            <div className="text-base-content p-2">{component.text || component.type}</div>
           </div>
         </DraggableComponent>
       ))}

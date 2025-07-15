@@ -4,5 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react({
+    babel: {
+      plugins: [["@babel/plugin-proposal-optional-chaining-assign", { version: "2023-07" }]],
+    },
+  }), tailwindcss()],
 });

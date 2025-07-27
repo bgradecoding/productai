@@ -146,10 +146,87 @@ const App: React.FC = () => {
 
       const prompt =
         mode === "text"
-          ? `Create a complete webpage based on the following request: "${textInput}". Please provide the response as a single JSON object with three keys: "html", "css", and "javascript". The HTML should be a full document structure including <!DOCTYPE html>, <html>, <head>, and <body> tags. The CSS should be modern and clean. The JavaScript code should be placed inside the script tag. IMPORTANT: Respond ONLY with valid JSON, no additional text or explanations.`
-          : `Create a complete webpage based on the following wireframe data: ${JSON.stringify(
+          ? `
+          실제 정수기 LCD 화면 기준 가이드 스
+• 실제 정수기 LCD 분석 결과:
+- 화면당 텍스트: 2-6글자만 ("정수 120ml 3, 70°C x")
+- 화면당 터지 요소: 2-3개 최대
+- 중앙 큰 숫자/텍스트가 핵심
+- 극단적 미니멀리즘
+• 반드시 따라야 할 실제 패턴:
+- 한 화면 = 하나의 주요 정보만
+- 텍스트: 최대 6글자 ("냉수, "250ml, 아빠" 수준)
+- 버튼: 화살표(xx), +/, 단일 선택만
+- 진행 표시: > 화살표 사용
+• v 구조 (요청에 따라 적절히 선택):
+기본형) 온도/용량/사용자: 25°C" (중앙 대형) + 좌우 화살표 게이지형) 다이얼/슬라이더 요청 시: 중앙 큰 숫자 + 간단한 시각적 컨트롤 선택형) 여러 옵션 중 선택: 큰 버튼 2-3개만
+~ 유연성 원칙:
+- 기본 텍스트 화면: 극단적 단순화 적용
+- 게이지/다이얼 요청: 시각적 요소 허용하되 핵심 기능만
+- 복잡한 기능보다 사용성 우선
+• 색상: 다크 배경 + 흰색 텍스트 + 포인트 오렌지
+• 폰트: font-family. 'SF Pro KR', apple-system, BlinkMacSystemFont 필수 사용
+• 물리적 출수 버튼 연동 필수사항:
+1) 최종 단계에서 "물리적 출수 버튼을 눌러주세요" 메시지 표시
+2) 반드시 이 메시지 리스너 코드 추가:
+window.addEventListener(message', (event) => [ if (event.data.type === 'PHYSICAL_DISPENSE_START) [
+1/ 출수 시작 함수 호출
+3) 출수 중 화면은 "출수 중" 텍스트 + 진행바로 단순하게
+4) 출수 완료 후 자동으로 첫 화면으로 복귀
+          Create a complete webpage based on the following request: "${textInput}". Please provide the response as a single JSON object with three keys: "html", "css", and "javascript". The HTML should be a full document structure including <!DOCTYPE html>, <html>, <head>, and <body> tags. The CSS should be modern and clean. The JavaScript code should be placed inside the script tag. IMPORTANT: Respond ONLY with valid JSON, no additional text or explanations.`
+          : `
+          실제 정수기 LCD 화면 기준 가이드 스
+• 실제 정수기 LCD 분석 결과:
+- 화면당 텍스트: 2-6글자만 ("정수 120ml 3, 70°C x")
+- 화면당 터지 요소: 2-3개 최대
+- 중앙 큰 숫자/텍스트가 핵심
+- 극단적 미니멀리즘
+• 반드시 따라야 할 실제 패턴:
+- 한 화면 = 하나의 주요 정보만
+- 텍스트: 최대 6글자 ("냉수, "250ml, 아빠" 수준)
+- 버튼: 화살표(xx), +/, 단일 선택만
+- 진행 표시: > 화살표 사용
+• v 구조 (요청에 따라 적절히 선택):
+기본형) 온도/용량/사용자: 25°C" (중앙 대형) + 좌우 화살표 게이지형) 다이얼/슬라이더 요청 시: 중앙 큰 숫자 + 간단한 시각적 컨트롤 선택형) 여러 옵션 중 선택: 큰 버튼 2-3개만
+~ 유연성 원칙:
+- 기본 텍스트 화면: 극단적 단순화 적용
+- 게이지/다이얼 요청: 시각적 요소 허용하되 핵심 기능만
+- 복잡한 기능보다 사용성 우선
+• 색상: 다크 배경 + 흰색 텍스트 + 포인트 오렌지
+• 폰트: font-family. 'SF Pro KR', apple-system, BlinkMacSystemFont 필수 사용
+• 물리적 출수 버튼 연동 필수사항:
+1) 최종 단계에서 "물리적 출수 버튼을 눌러주세요" 메시지 표시
+2) 반드시 이 메시지 리스너 코드 추가:
+window.addEventListener(message', (event) => [ if (event.data.type === 'PHYSICAL_DISPENSE_START) [
+1/ 출수 시작 함수 호출
+3) 출수 중 화면은 "출수 중" 텍스트 + 진행바로 단순하게
+4) 출수 완료 후 자동으로 첫 화면으로 복귀
+
+• 정수기 LCD 화면 크기 제약사항 (절대적으로 준수해야 함):
+- 화면 크기: 78% 너비 x 24% 높이 (매우 작은 화면)
+- 최대 폰트 크기: 14px 이하
+- 버튼 크기: 최소 30px x 30px (터치 가능한 크기)
+- 여백: 최소 8px
+- 요소 간 간격: 4-8px
+- 반응형이 아닌 고정 크기로 제작
+- 모든 요소는 화면 크기에 맞춰 자동 조정되어야 함
+- overflow: hidden으로 화면 밖 요소 숨김 처리
+- position: absolute 사용하여 정확한 위치 지정
+- 스크롤이 절대 생기지 않도록 모든 요소가 지정된 영역 안에 완전히 들어가야 함
+- body, html에 overflow: hidden 적용 필수
+- 모든 요소의 크기와 위치가 정수기 LCD 영역을 벗어나지 않도록 제한
+          
+Create a complete webpage based on the following wireframe data: ${JSON.stringify(
               wireframeData
-            )}. Please provide the response as a single JSON object with three keys: "html", "css", and "javascript". The HTML should be a full document structure including <!DOCTYPE html>, <html>, <head>, and <body> tags. IMPORTANT: Respond ONLY with valid JSON, no additional text or explanations.`;
+            )}.
+와이어 프레임 요소 각각에 적혀있는 규칙을 잘 따라서 와이어 프레임의 전체적인 위치를 유지하면서 제작해라
+와이어 프레임에 있는 모든 요소가 화면에 나올 수 있도록 크기를 조절해서 만들어야 한다
+와이어 프레임의 전체적 요소가 중앙에 배치되도록 한다
+위의 정수기 LCD 화면 크기 제약사항을 반드시 준수하여 매우 작은 화면에 맞게 모든 요소의 크기를 조정해라
+CSS에서 body와 html의 크기를 정수기 LCD 화면 크기(78% x 24%)에 맞춰 고정하고, 모든 요소가 이 영역 안에 들어가도록 제작해라
+CSS에서 반드시 overflow: hidden을 적용하여 스크롤이 생기지 않도록 해라
+모든 요소의 크기와 위치가 정수기 LCD 영역(78% x 24%)을 절대 벗어나지 않도록 제한해라
+Please provide the response as a single JSON object with three keys: "html", "css", and "javascript". The HTML should be a full document structure including <!DOCTYPE html>, <html>, <head>, and <body> tags. IMPORTANT: Respond ONLY with valid JSON, no additional text or explanations.`;
 
       const response = await anthropic.messages.create({
         model: "claude-3-5-sonnet-20241022",
@@ -385,11 +462,11 @@ const App: React.FC = () => {
 
           {/* Preview Slide Panel */}
           <div
-            className={`fixed top-0 right-0 h-full w-96 bg-white shadow-2xl border-l border-gray-200 transform transition-transform duration-300 ease-in-out z-50 ${
+            className={`fixed top-0 right-0 h-full w-[600px] bg-white shadow-2xl border-l border-gray-200 transform transition-transform duration-300 ease-in-out z-50 ${
               showPreview ? "translate-x-0" : "translate-x-full"
             }`}
           >
-            <div className="h-full flex flex-col">
+            <div className="flex flex-col">
               <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
                 <h3 className="text-lg font-semibold text-gray-800">
                   Live Preview
@@ -413,9 +490,9 @@ const App: React.FC = () => {
                   </svg>
                 </button>
               </div>
-              <div className="flex-1">
-                <PreviewPanel srcDoc={srcDoc} />
-              </div>
+            </div>
+            <div className="flex">
+              <PreviewPanel srcDoc={srcDoc} />
             </div>
           </div>
         </div>
@@ -450,7 +527,7 @@ const Header: React.FC<{ mode: Mode; setMode: (mode: Mode) => void }> = ({
           </div>
           <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Claude Web Generator
+              AI Design Prototype
             </h1>
             <p className="text-sm text-gray-500">AI-powered web development</p>
           </div>
@@ -675,15 +752,26 @@ const PreviewPanel: React.FC<{ srcDoc: string }> = ({ srcDoc }) => {
     : srcDoc;
 
   return (
-    <div className="h-full bg-white">
-      <iframe
-        srcDoc={finalSrcDoc}
-        title="preview"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-        width="100%"
-        height="100%"
-        className="border-0 rounded-b-2xl"
-      />
+    <div className="h-full bg-white relative">
+      <div className="w-full h-full">
+        <img
+          src="/black_water_one.png"
+          className="w-full h-full object-cover"
+          alt="Preview background"
+        />
+      </div>
+      <div className="absolute inset-0 flex justify-center pl-2 pt-[270px]">
+        <div className="w-[78%] h-[24%] bg-white rounded-lg shadow-lg overflow-hidden">
+          <iframe
+            srcDoc={finalSrcDoc}
+            title="preview"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            width="100%"
+            height="100%"
+            className="border-0"
+          />
+        </div>
+      </div>
     </div>
   );
 };
